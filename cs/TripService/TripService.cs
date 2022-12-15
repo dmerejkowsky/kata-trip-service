@@ -4,29 +4,17 @@ public class TripService
 {
     public List<Trip> GetTripsByUser(User user)
     {
-        List<Trip> tripList = new List<Trip>();
-        User loggedUser = GetLoggedUser();
-        bool isFriend = false;
-        if (loggedUser != null)
-        {
-            foreach (User friend in user.Friends)
-            {
-                if (friend.Equals(loggedUser))
-                {
-                    isFriend = true;
-                    break;
-                }
-            }
-            if (isFriend)
-            {
-                tripList = GetTripsForUser(user);
-            }
-            return tripList;
-        }
-        else
-        {
-            throw new UserNotLoggedInException();
-        }
+        User? loggedUser = GetLoggedUser();
+        ValidateUser(loggedUser);
+
+        return user.IsFriendsWith(loggedUser!) ? GetTripsForUser(user) : new List<Trip>();
+    }
+
+
+    private static void ValidateUser(User? loggedUser)
+    {
+        if (loggedUser == null) 
+            throw new UserNotLoggedInException();     
     }
 
     virtual protected List<Trip> GetTripsForUser(User user)

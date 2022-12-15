@@ -23,6 +23,12 @@ public class User
     {
         Trips.Add(trip);
     }
+
+    public bool IsFriendsWith(User otherUser)
+    {
+        return Friends.Any(friend => friend.Name == otherUser.Name);
+    }
+
     public override string ToString()
     {
         return $"User[{Name}]>";
