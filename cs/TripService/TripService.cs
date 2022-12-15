@@ -10,18 +10,12 @@ public class TripService
         _repository = repository;
     }
 
-    public List<Trip> GetTripsByUser(User user)
+    public List<Trip> GetFriendTrips(User user)
     {
         User? loggedUser = _session.GetLoggedUser();
-        ValidateUser(loggedUser);
-
-        return user.IsFriendsWith(loggedUser!) ? _repository.GetTripsForUser(user) : new List<Trip>();
-    }
-
-
-    private static void ValidateUser(User? loggedUser)
-    {
         if (loggedUser == null)
             throw new UserNotLoggedInException();
+
+        return user.IsFriendsWith(loggedUser) ? _repository.GetTripsForUser(user) : new List<Trip>();
     }
 }

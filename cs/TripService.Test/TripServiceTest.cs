@@ -47,7 +47,7 @@ public class TripServiceTest
     public void should_throw_when_not_logged_in()
     {
         var tripService = ServiceForLoggetOutUser();
-        Assert.Throws<UserNotLoggedInException>(() => tripService.GetTripsByUser(otherUser));
+        Assert.Throws<UserNotLoggedInException>(() => tripService.GetFriendTrips(otherUser));
     }
 
     [Test]
@@ -55,7 +55,7 @@ public class TripServiceTest
     {
         var tripService = ServiceForLoggedInUser();
 
-        var trips = tripService.GetTripsByUser(otherUser);
+        var trips = tripService.GetFriendTrips(otherUser);
 
         Assert.That(trips, Is.Empty);
     }
@@ -67,7 +67,7 @@ public class TripServiceTest
         otherUser.AddFriend(loggedInUser);
         otherUser.AddTrip(toPeru);
 
-        var trips = tripService.GetTripsByUser(otherUser);
+        var trips = tripService.GetFriendTrips(otherUser);
 
         Assert.That(trips, Is.EqualTo(new[] { toPeru }));
     }
