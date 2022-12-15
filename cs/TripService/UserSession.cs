@@ -10,7 +10,7 @@ public class UserSession
 
     public static UserSession GetInstance() => INSTANCE;
 
-    public User GetLoggedUser()
+    public User? GetLoggedUser()
     {
         throw new Exception("Cannot use UserSession for unit tests");
     }

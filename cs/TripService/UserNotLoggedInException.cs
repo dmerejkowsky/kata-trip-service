@@ -3,7 +3,7 @@
 namespace TripService
 {
     [Serializable]
-    internal class UserNotLoggedInException : Exception
+    public class UserNotLoggedInException : Exception
     {
         public UserNotLoggedInException()
         {
