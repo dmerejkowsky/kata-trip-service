@@ -1,8 +1,8 @@
 ﻿namespace TripService;
 
-public class TripDAO
+public class TripDAO : IRepository
 {
-    internal static List<Trip> FindTripsByUser(User user)
+    public List<Trip> GetTripsForUser(User user)
     {
         throw new Exception("Cannot use TripDAO for unit tests");
     }

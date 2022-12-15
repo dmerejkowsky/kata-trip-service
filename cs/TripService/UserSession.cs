@@ -3,8 +3,8 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace TripService;
 
-public class UserSession
-{
+public class UserSession : ISession
+{ 
     private static readonly UserSession INSTANCE = new UserSession();
     private UserSession() { }
 
