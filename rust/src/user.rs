@@ -1,10 +1,9 @@
 use crate::Trip;
-use std::rc::Rc;
 
-#[derive(Eq, PartialEq, Debug)]
+#[derive(Eq, PartialEq, Debug, Clone)]
 pub struct User {
     name: String,
-    friends: Vec<Rc<User>>,
+    friends: Vec<User>,
     trips: Vec<Trip>,
 }
 
@@ -21,11 +20,11 @@ impl User {
         &self.name
     }
 
-    pub fn add_friend(&mut self, friend: Rc<User>) {
+    pub fn add_friend(&mut self, friend: User) {
         self.friends.push(friend);
     }
 
-    pub fn friends(&self) -> &Vec<Rc<User>> {
+    pub fn friends(&self) -> &Vec<User> {
         &self.friends
     }
 
@@ -34,6 +33,6 @@ impl User {
     }
 
     pub fn is_friend_with(&self, other: &User) -> bool {
-        self.friends.iter().any(|x| x.as_ref() == other)
+        self.friends.iter().any(|x| x == other)
     }
 }

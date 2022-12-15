@@ -1,15 +1,15 @@
 use crate::*;
-use std::{collections::HashMap, rc::Rc};
+use std::collections::HashMap;
 
 #[test]
 fn test_can_add_friends_to_user() {
     let mut bob = User::new("Bob");
-    let charlie = Rc::new(User::new("Charlie"));
-    bob.add_friend(Rc::clone(&charlie));
+    let charlie = User::new("Charlie");
+
+    bob.add_friend(charlie.clone());
 
     let friends = bob.friends();
-    assert_eq!(friends, &vec![Rc::clone(&charlie)]);
-
+    assert_eq!(friends, &vec![charlie.clone()]);
     assert!(bob.is_friend_with(&charlie));
 }
 
@@ -22,11 +22,11 @@ impl UserSession for RejectingSession {
 }
 
 struct AcceptingSession {
-    user: Rc<User>,
+    user: User,
 }
 
 impl AcceptingSession {
-    fn new(user: Rc<User>) -> Self {
+    fn new(user: User) -> Self {
         Self { user }
     }
 }
@@ -76,8 +76,8 @@ fn test_trip_service_return_error_if_not_logged_in() {
 
 #[test]
 fn test_trip_service_return_empty_if_not_friend() {
-    let bob = Rc::new(User::new("Bob"));
-    let session = AcceptingSession::new(Rc::clone(&bob));
+    let bob = User::new("Bob");
+    let session = AcceptingSession::new(bob.clone());
     let db = FakeDatabase::new();
     let service = TripService::new(Box::new(session), Box::new(db));
 
@@ -88,13 +88,13 @@ fn test_trip_service_return_empty_if_not_friend() {
 
 #[test]
 fn test_return_friends_trips() {
-    let bob = Rc::new(User::new("Bob"));
+    let bob = User::new("Bob");
     let mut charlie = User::new("Charlie");
-    charlie.add_friend(Rc::clone(&bob));
+    charlie.add_friend(bob.clone());
     let to_peru = Trip::new("To Peru");
     let to_egypt = Trip::new("To Egypt");
 
-    let session = AcceptingSession::new(Rc::clone(&bob));
+    let session = AcceptingSession::new(bob);
     let mut db = FakeDatabase::new();
     db.insert_trip(charlie.name(), to_peru.clone());
     db.insert_trip(charlie.name(), to_egypt.clone());
