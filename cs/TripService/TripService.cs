@@ -5,7 +5,7 @@ public class TripService
     public List<Trip> GetTripsByUser(User user)
     {
         List<Trip> tripList = new List<Trip>();
-        User loggedUser = UserSession.GetInstance().GetLoggedUser();
+        User loggedUser = GetLoggedUser();
         bool isFriend = false;
         if (loggedUser != null)
         {
@@ -19,7 +19,7 @@ public class TripService
             }
             if (isFriend)
             {
-                tripList = TripDAO.FindTripsByUser(user);
+                tripList = GetTripsForUser(user);
             }
             return tripList;
         }
@@ -27,5 +27,15 @@ public class TripService
         {
             throw new UserNotLoggedInException();
         }
+    }
+
+    virtual protected List<Trip> GetTripsForUser(User user)
+    {
+        return TripDAO.FindTripsByUser(user);
+    }
+
+    virtual protected User? GetLoggedUser()
+    {
+        return UserSession.GetInstance().GetLoggedUser();
     }
 }
