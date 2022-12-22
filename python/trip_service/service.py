@@ -19,3 +19,6 @@ class TripService:
                 return trips
         else:
             raise UserNotLoggedIn()
+
+    def get_logged_user(self):
+        return session.get_logged_user()
