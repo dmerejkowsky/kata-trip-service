@@ -8,18 +8,12 @@ class TripService:
         self.user_session = user_session
         self.trip_repository = trip_repository
 
-    def get_trips_by_user(self, user):
-        trips = []
-        is_friend = False
+    def get_trips_by_user(self, other_user):
         logged_user = self.user_session.get_logged_user()
-        if logged_user:
-            for friend in user.friends:
-                if friend == logged_user:
-                    is_friend = True
-                    break
-            if is_friend:
-                return self.trip_repository.find_trips_by_user(user)
-            else:
-                return trips
-        else:
+        if not logged_user:
             raise UserNotLoggedIn()
+
+        if other_user.is_friends_with(logged_user):
+            return self.trip_repository.find_trips_by_user(other_user)
+        else:
+            return []

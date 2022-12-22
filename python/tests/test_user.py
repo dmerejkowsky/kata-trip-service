@@ -9,6 +9,7 @@ def test_users_can_have_friends():
     alice.add_friend(bob)
 
     assert alice.friends == [bob]
+    assert alice.is_friends_with(bob)
 
 
 def test_users_have_a_list_of_trips():
